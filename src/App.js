@@ -3,6 +3,7 @@ import { faker } from "@faker-js/faker";
 import Header from "./Header";
 import Main from "./Main";
 import Archive from "./Archive";
+import { createContext } from "react";
 
 function createRandomPost() {
   return {
@@ -44,25 +45,33 @@ function App() {
     [isFakeDark]
   );
 
-  return (
-    <section>
-      <button
-        onClick={() => setIsFakeDark((isFakeDark) => !isFakeDark)}
-        className="btn-fake-dark-mode"
-      >
-        {isFakeDark ? "☀️" : "🌙"}
-      </button>
+  const PostsContext = createContext();
 
-      <Header
-        posts={searchedPosts}
-        onClearPosts={handleClearPosts}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-      />
-      <Main posts={searchedPosts} onAddPost={handleAddPost} />
-      <Archive onAddPost={handleAddPost} createRandomPost={createRandomPost} />
-      <Footer />
-    </section>
+  return (
+    <PostsContext.Provider
+      value={{
+        posts: searchedPosts,
+        onClearPosts: handleClearPosts,
+        onAddPost: handleAddPost,
+        searchQuery,
+        setSearchQuery,
+        createRandomPost,
+      }}
+    >
+      <section>
+        <button
+          onClick={() => setIsFakeDark((isFakeDark) => !isFakeDark)}
+          className="btn-fake-dark-mode"
+        >
+          {isFakeDark ? "☀️" : "🌙"}
+        </button>
+
+        <Header PostsContext={PostsContext} />
+        <Main PostsContext={PostsContext} />
+        <Archive PostsContext={PostsContext} />
+        <Footer />
+      </section>
+    </PostsContext.Provider>
   );
 }
 

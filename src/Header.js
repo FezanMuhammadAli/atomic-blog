@@ -1,22 +1,23 @@
-function Header({ posts, onClearPosts, searchQuery, setSearchQuery }) {
+import React, { useContext } from "react";
+
+function Header({ PostsContext }) {
+  const { onClearPosts } = useContext(PostsContext);
   return (
     <header>
       <h1>
         <span>⚛️</span>The Atomic Blog
       </h1>
       <div>
-        <Results posts={posts} />
-        <SearchPosts
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-        />
+        <Results PostsContext={PostsContext} />
+        <SearchPosts PostsContext={PostsContext} />
         <button onClick={onClearPosts}>Clear posts</button>
       </div>
     </header>
   );
 }
 
-function SearchPosts({ searchQuery, setSearchQuery }) {
+function SearchPosts({ PostsContext }) {
+  const { searchQuery, setSearchQuery } = useContext(PostsContext);
   return (
     <input
       value={searchQuery}
@@ -26,7 +27,8 @@ function SearchPosts({ searchQuery, setSearchQuery }) {
   );
 }
 
-function Results({ posts }) {
+function Results({ PostsContext }) {
+  const { posts } = useContext(PostsContext);
   return <p>🚀 {posts.length} atomic posts found</p>;
 }
 
