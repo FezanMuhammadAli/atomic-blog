@@ -1,24 +1,25 @@
 import React, { useContext, useState } from "react";
+import { usePosts } from "./PostsProvider";
 
-function Main({ PostsContext }) {
+function Main() {
   return (
     <main>
-      <FormAddPost PostsContext={PostsContext} />
-      <Posts PostsContext={PostsContext} />
+      <FormAddPost />
+      <Posts />
     </main>
   );
 }
 
-function Posts({ PostsContext }) {
+function Posts() {
   return (
     <section>
-      <List PostsContext={PostsContext} />
+      <List />
     </section>
   );
 }
 
-function FormAddPost({ PostsContext }) {
-  const { onAddPost } = useContext(PostsContext);
+function FormAddPost() {
+  const { onAddPost } = usePosts();
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
@@ -47,8 +48,8 @@ function FormAddPost({ PostsContext }) {
   );
 }
 
-function List({ PostsContext }) {
-  const { posts } = useContext(PostsContext);
+function List() {
+  const { posts } = usePosts();
   return (
     <ul>
       {posts.map((post, i) => (

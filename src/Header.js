@@ -1,23 +1,23 @@
-import React, { useContext } from "react";
+import { usePosts } from "./PostsProvider";
 
-function Header({ PostsContext }) {
-  const { onClearPosts } = useContext(PostsContext);
+function Header() {
+  const { onClearPosts } = usePosts();
   return (
     <header>
       <h1>
         <span>⚛️</span>The Atomic Blog
       </h1>
       <div>
-        <Results PostsContext={PostsContext} />
-        <SearchPosts PostsContext={PostsContext} />
+        <Results />
+        <SearchPosts />
         <button onClick={onClearPosts}>Clear posts</button>
       </div>
     </header>
   );
 }
 
-function SearchPosts({ PostsContext }) {
-  const { searchQuery, setSearchQuery } = useContext(PostsContext);
+function SearchPosts() {
+  const { searchQuery, setSearchQuery } = usePosts();
   return (
     <input
       value={searchQuery}
@@ -27,8 +27,8 @@ function SearchPosts({ PostsContext }) {
   );
 }
 
-function Results({ PostsContext }) {
-  const { posts } = useContext(PostsContext);
+function Results() {
+  const { posts } = usePosts();
   return <p>🚀 {posts.length} atomic posts found</p>;
 }
 
